@@ -1,0 +1,14 @@
+﻿@model DeleteViewModel
+@{
+    ViewData["Title"] = "Delete";
+}
+
+<h1>Delete</h1>
+
+<h3>Are you sure you want to delete this?</h3>
+
+<form asp-action="DeleteHouse">
+    <input type="hidden" asp-for="HouseId" />
+    <input type="submit" value="Delete" class="btn btn-danger btn-lg" />
+    <button class="btn btn-success btn-lg" asp-controller="Home" asp-action="Index">Back to List</button>
+</form>

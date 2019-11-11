@@ -1,0 +1,34 @@
+﻿@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Houses We've Seen";
+}
+
+<div class="text-center">
+    <h1 class="display-4">@Model.Title</h1>
+
+    <div class="row">
+        @foreach (var house in Model.Houses)
+        {
+        <div class="col-sm-4 col-lg-4 col-md-4">
+            <a asp-controller="FutureVisits" asp-action="Details" asp-route-id="@house.Id">
+                <div class="card p-1 mb-1" id="house-thumbnail">
+                    <img src="@house.ImageThumbnailUrl" alt="" class="img-fluid">
+                    <div class="figure">
+                        @if (house.Sold)
+                        {
+                            <h3 class="text-danger">Sold</h3>
+                        }
+                        else
+                        {
+                            <h3>@house.Price.ToString("c0")</h3>
+                        }
+                        <h3>@house.Address</h3>
+                        <p>@house.ShortDescription</p>
+                    </div>
+                </div>
+            </a>
+            </div>
+        }
+    </div>
+</div>

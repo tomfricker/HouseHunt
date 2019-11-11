@@ -1,0 +1,22 @@
+﻿@model House
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>@Model.Address</h2>
+
+<div class="card p-2">
+    <img alt="@Model.Address" src="@Model.ImageThumbnailUrl" class="img-fluid mb-1">
+    <div class="figure-caption">
+        <h3 class="float-right">@Model.Price.ToString("c0")</h3>
+        <h3>
+            <a href="#">@Model.Address</a>
+        </h3>
+        <h4>@Model.ShortDescription</h4>
+        <br />
+        <img alt="@Model.Address" src="@Model.FloorPlan" class="img-fluid" />
+        <br />
+        <strong><a href="@Model.RightMoveUrl">Click here for RightMove Details</a></strong>
+    </div>
+</div>

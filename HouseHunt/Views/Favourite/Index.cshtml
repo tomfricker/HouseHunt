@@ -1,0 +1,23 @@
+﻿@model House
+@{
+    ViewData["Title"] = "Our House";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Our New Home</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <a asp-controller="FutureVisits" asp-action="Details" asp-route-id="@Model.Id">
+                <div class="card p-1 mb-1" id="house-thumbnail">
+                    <img src="@Model.ImageThumbnailUrl" alt="" class="img-fluid">
+                    <div class="figure">
+                        <h3>@Model.Price.ToString("c0")</h3>
+                        <h3>@Model.Address</h3>
+                        <p>@Model.ShortDescription</p>
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
