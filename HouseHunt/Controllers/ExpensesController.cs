@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using HouseHunt.Models;
+using HouseHunt.Repositories;
 using HouseHunt.ViewModels;
 using Microsoft.AspNetCore.Authorization;
 
@@ -14,18 +15,18 @@ namespace HouseHunt.Controllers
     //[Authorize]
     public class ExpensesController : Controller
     {
-        private readonly AppDbContext _context;
+        private readonly IExpenseRepository _expenseRepository;
 
-        public ExpensesController(AppDbContext context)
+        public ExpensesController(IExpenseRepository expenseRepository)
         {
-            _context = context;
+            _expenseRepository = expenseRepository;
         }
 
         // GET: Expenses
-        public async Task<IActionResult> Index()
+        public ActionResult Index()
         {
             var model = new ExpenseViewModel();
-            model.Expenses = await _context.Expenses.ToListAsync();
+            model.Expenses = _expenseRepository.GetAllExpenses();
             foreach (var item in model.Expenses)
             {
                 model.Total += item.Amount;
@@ -37,15 +38,14 @@ namespace HouseHunt.Controllers
         }
 
         // GET: Expenses/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public ActionResult Details(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var expense = await _context.Expenses
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var expense = _expenseRepository.GetExpenseById((int)id);
             if (expense == null)
             {
                 return NotFound();
@@ -65,26 +65,25 @@ namespace HouseHunt.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,Payee,Amount")] Expense expense)
+        public ActionResult Create([Bind("Id,Name,Payee,Amount")] Expense expense)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(expense);
-                await _context.SaveChangesAsync();
+                _expenseRepository.AddExpense(expense);
                 return RedirectToAction(nameof(Index));
             }
             return View(expense);
         }
 
         // GET: Expenses/Edit/5
-        public async Task<IActionResult> Edit(int? id)
+        public ActionResult Edit(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var expense = await _context.Expenses.FindAsync(id);
+            var expense = _expenseRepository.GetExpenseById((int)id);
             if (expense == null)
             {
                 return NotFound();
@@ -97,7 +96,7 @@ namespace HouseHunt.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Payee,Amount")] Expense expense)
+        public ActionResult Edit(int id, [Bind("Id,Name,Payee,Amount")] Expense expense)
         {
             if (id != expense.Id)
             {
@@ -106,37 +105,21 @@ namespace HouseHunt.Controllers
 
             if (ModelState.IsValid)
             {
-                try
-                {
-                    _context.Update(expense);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!ExpenseExists(expense.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
+                _expenseRepository.EditExpense(expense);
                 return RedirectToAction(nameof(Index));
             }
             return View(expense);
         }
 
         // GET: Expenses/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public ActionResult Delete(int? id)
         {
             if (id == null)
             {
                 return NotFound();
             }
 
-            var expense = await _context.Expenses
-                .FirstOrDefaultAsync(m => m.Id == id);
+            var expense = _expenseRepository.GetExpenseById((int)id);
             if (expense == null)
             {
                 return NotFound();
@@ -148,17 +131,10 @@ namespace HouseHunt.Controllers
         // POST: Expenses/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int id)
         {
-            var expense = await _context.Expenses.FindAsync(id);
-            _context.Expenses.Remove(expense);
-            await _context.SaveChangesAsync();
+            _expenseRepository.Delete(id);
             return RedirectToAction(nameof(Index));
-        }
-
-        private bool ExpenseExists(int id)
-        {
-            return _context.Expenses.Any(e => e.Id == id);
         }
     }
 }

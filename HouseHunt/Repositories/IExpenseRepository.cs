@@ -6,7 +6,7 @@ using HouseHunt.Models;
 
 namespace HouseHunt.Repositories
 {
-    interface IExpenseRepository
+    public interface IExpenseRepository
     {
         IEnumerable<Expense> GetAllExpenses();
         Expense GetExpenseById(int expenseId);
