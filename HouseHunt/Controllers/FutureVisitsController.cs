@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HouseHunt.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class FutureVisitsController : Controller
     {
         private readonly IHouseRepository _houseRepository;

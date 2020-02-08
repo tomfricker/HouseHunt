@@ -10,7 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HouseHunt.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class HomeController : Controller
     {
         private readonly IHouseRepository _houseRepository;

@@ -27,25 +27,25 @@
         </tr>
         </thead>
         <tbody>
-        @foreach (var item in Model.Expenses)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Name)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Payee)
-                </td>
-                <td>
-                    @item.Amount.ToString("c2")
-                </td>
-                <td>
-                    <a class="btn btn-outline-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
-                    <a class="btn btn-outline-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>
-                    <a class="btn btn-outline-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-                </td>
-            </tr>
-        }
+            @foreach (var item in Model.Expenses)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Payee)
+                    </td>
+                    <td>
+                        @item.Amount.ToString("c2")
+                    </td>
+                    <td>
+                        <a class="btn btn-outline-secondary" asp-action="Edit" asp-route-id="@item.Id">Edit</a>
+                        <a class="btn btn-outline-secondary" asp-action="Details" asp-route-id="@item.Id">Details</a>
+                        <a class="btn btn-outline-secondary" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                    </td>
+                </tr>
+            }
         <tr>
             <td>
                 <strong>Total</strong>
@@ -53,6 +53,16 @@
             <td></td>
             <td>
                 <strong>@Model.Total.ToString("c2")</strong>
+            </td>
+        </tr>
+        <tr></tr>
+        <tr>
+            <td>
+                <strong>Remaining balance</strong>
+            </td>
+            <td></td>
+            <td>
+                <strong>@Model.RemainingBalance.ToString("c2")</strong>
             </td>
         </tr>
         </tbody>

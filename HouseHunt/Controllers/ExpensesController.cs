@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace HouseHunt.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class ExpensesController : Controller
     {
         private readonly AppDbContext _context;
@@ -30,6 +30,8 @@ namespace HouseHunt.Controllers
             {
                 model.Total += item.Amount;
             }
+
+            model.RemainingBalance = 5000 - model.Total;
             
             return View(model);
         }

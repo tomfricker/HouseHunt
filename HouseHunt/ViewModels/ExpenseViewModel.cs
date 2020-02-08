@@ -10,5 +10,6 @@ namespace HouseHunt.ViewModels
     {
         public IEnumerable<Expense> Expenses { get; set; }
         public double Total { get; set; }
+        public double RemainingBalance { get; set; }
     }
 }

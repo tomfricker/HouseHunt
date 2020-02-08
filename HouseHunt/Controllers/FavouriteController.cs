@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace HouseHunt.Controllers
 {
-    [Authorize]
+    //[Authorize]
     public class FavouriteController : Controller
     {
         IHouseRepository _houseRepository;
